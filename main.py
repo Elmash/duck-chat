@@ -160,6 +160,8 @@ def print_response(stream: Queue):
     markdown_content = Markdown(buffer)
     console.print(markdown_content)
 
+def print_prompt_with_background(prompt: str):
+    print(f"\033[1;44m{prompt}\033[0m ", end="")  
 
 def main():
     try:
@@ -189,7 +191,10 @@ def main():
             print_response(stream)
 
         while True:
-            input_str = input("\033[1;34mYou:\033[0m ").strip()  
+            print_prompt_with_background("You:")  
+            input_str = input().strip()  
+            if not input_str:
+                continue  
             if input_str == "exit":
                 break
             stream = chat.fetch_stream(input_str)
